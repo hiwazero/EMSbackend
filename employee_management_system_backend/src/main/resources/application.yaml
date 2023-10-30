@@ -1,0 +1,12 @@
+spring:
+  jpa:
+    open-in-view: false
+  datasource:
+    url: jdbc:mysql://localhost:3307/ems?useSSL=false
+    username: root
+    password: root
+  #JPA Settings
+  jpa.hibernate.ddl_auto: update
+  hibernate:
+    dialect: org.hibernate.dialect.MySQLDialect
+  driver_class: com.mysql.cj.jdbc.Driver
