@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Student Management System</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+</head>
+<body>
+    <div class="container my-2">
+        <h3>Employee List</h3>
+        <a th:href="@{/add}" class="btn btn-primary btn-sm mb-3">Add Employee</a>
+        <table style="width: 80%" border="1" class="table table-stripped table-responsive-md">
+            <thead class="thead-light">
+                <tr>
+                    <th style="text-align: center">First Name</th>
+                    <th style="text-align: center">Last Name</th>
+                    <th style="text-align: center">Email</th>
+                    <th colspan="2" style="text-align: center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="employee: ${allemplist}">
+                    <td th:text="${employee.firstName}"></td>
+                    <td th:text="${employee.lastName}"></td>
+                    <td th:text="${employee.email}"></td>
+                    <td><a href="#" th:href="@{/updateform/{id}(id=${employee.id})}" class="btn btn-warning">Update</a></td>
+                    <td><a href="#" th:href="@{/delete/{id}(id=${employee.id})}" class="btn btn-danger">Delete</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
