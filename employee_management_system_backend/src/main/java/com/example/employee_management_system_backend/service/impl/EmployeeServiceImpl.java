@@ -10,8 +10,9 @@ import com.example.employee_management_system_backend.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,10 +30,47 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<EmployeeDto> getAllEmployees() {
+    public List<EmployeeDto> getAllEmployees(Integer page,Integer size,String sortBy) {
         List<Employee> employees = employeeRepository.findAll();
-        return employees.stream().map((employee) -> EmployeeMapper.mapToEmployeeDto(employee))
-                .collect(Collectors.toList());
+
+        // Add logic to handle pagination and sorting
+        if(page == null){
+            page = 1 ; // Default page number
+        }
+
+        if(size == null){
+            size = 10;
+        }
+
+        if(sortBy == null){
+            sortBy = "ascend";
+        }
+
+        // Pagination Logic
+        int startIndex = (page - 1) * size;
+        int endIndex = Math.min(startIndex + size, employees.size());
+
+        // Return the sublist based on the pagination parameters
+        List<Employee> subList;
+        if (startIndex <= endIndex) {
+            subList = employees.subList(startIndex, endIndex);
+        } else {
+            subList = new ArrayList<>(); // Return an empty list if no items match the criteria
+        }
+
+        // Sorting logic
+        if(sortBy.equals("ascend")){
+            subList.sort(Comparator.comparing(Employee::getId)); // invoke getter for Id
+        } else if (sortBy.equals("descend")) {
+            subList.sort(Comparator.comparing(Employee::getId).reversed());
+        }
+
+        // Convert the sublist to EmployeeDto objects
+
+        // return employees.stream().map((employee) -> EmployeeMapper.mapToEmployeeDto(employee))
+        // .collect(Collectors.toList());
+
+        return subList.stream().map(EmployeeMapper::mapToEmployeeDto).collect(Collectors.toList());
     }
 
     @Override
@@ -58,7 +96,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void deleteEmployeeById(Long id) {
-        Employee employee = employeeRepository.findById(id)
+        employeeRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Employee does not exist with id: " + id));
         employeeRepository.deleteById(id);
     }

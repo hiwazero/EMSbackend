@@ -25,8 +25,12 @@ public class EmployeeController {
 
     //Build Get All Employee REST API
     @GetMapping
-    public  ResponseEntity<List<EmployeeDto>> getAllEmployees(){
-        List<EmployeeDto> employees = employeeService.getAllEmployees();
+    public  ResponseEntity<List<EmployeeDto>> getAllEmployees(
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size,
+            @RequestParam(required = false) String sortBy
+    ){
+        List<EmployeeDto> employees = employeeService.getAllEmployees(page, size, sortBy);
         return ResponseEntity.ok(employees);
     }
 

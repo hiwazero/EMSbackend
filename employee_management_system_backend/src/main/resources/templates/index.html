@@ -12,6 +12,10 @@
     <div class="container my-2">
         <h3>Employee List</h3>
         <a th:href="@{/add}" class="btn btn-primary btn-sm mb-3">Add Employee</a>
+        <!-- Plain button for testing export -->
+        <form th:action="@{/export}" method="get">
+            <button type="submit">Export Data to Excel</button>
+        </form>
         <table style="width: 80%" border="1" class="table table-stripped table-responsive-md">
             <thead class="thead-light">
                 <tr>
