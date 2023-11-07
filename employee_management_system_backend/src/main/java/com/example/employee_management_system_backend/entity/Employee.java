@@ -26,4 +26,8 @@ public class Employee {
 
     @Column(name = "email_id",nullable = false,unique = true)
     public String email;
+
+    @ManyToOne
+    @JoinColumn(name = "department_code")
+    public Department department;
 }

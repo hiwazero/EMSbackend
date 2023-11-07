@@ -101,5 +101,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepository.deleteById(id);
     }
 
+    @Override
+    public List<EmployeeDto> getEmployeesByDepartment(String department_code) {
+        List<Employee> employees = employeeRepository.findEmployeesByDepartment(department_code);
+        return employees.stream().map(EmployeeMapper::mapToEmployeeDto).collect(Collectors.toList());
+    }
 
 }
